@@ -1,0 +1,83 @@
+﻿@model Blogge.Web.Models.ViewModel.HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container col-xxl-8 py-3 px-3 bg-info mb-3 ">
+    <div class="row align-items-center g-5 p-5">
+<div class="col-12 col-lg-6">
+    <h3 class="display-5 fw-bold lh-1 mb-3"
+        >Bloggei The Blog
+
+    </h3>
+    <p class="lead">
+
+                Welcome to Bloggei – where words ignite curiosity and stories unfold. Dive into a realm of captivating content, ranging from tech innovations to heartfelt narratives. Our carefully curated posts promise insight, inspiration, and entertainment. Join a vibrant community where discussions flourish and connections thrive. Whether you seek advice, escapism, or enlightenment, Bloggei delivers. Embrace a journey of discovery, where every click opens doors to new ideas and perspectives. Let Bloggei be your beacon in the vast sea of online content. Engage, share, and immerse yourself in a world where knowledge knows no bounds. Welcome to Bloggei – where the adventure begins.
+    </p>
+
+</div>
+        <div class="col-12 col-lg-6">
+            <img src="https://images.pexels.com/photos/196655/pexels-photo-196655.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bloggie Blog" class="d-block mx-lg-auto img-fluid " width="400" />
+        </div>
+  </div>
+
+</div>
+<div class="container">
+    <div class="row justify-content-center"> 
+        <div class="col-6 d-flex">
+            @if(Model!=null && Model.Tags.Any())
+            {
+                @foreach(var item in Model.Tags)
+                {
+                    <span class="badge bg-dark me-2">
+                        @item.Name
+
+                    </span>
+                }
+            }
+        </div>
+      
+           
+    </div>
+
+</div>
+<div class="container ">
+    <div class="row justify-content-center">
+    <div class="col-6">
+       @if(Model!=null && Model.Posts.Any())
+        {
+        @foreach(var item in Model.Posts)
+        {
+           <div class="mb-5 bg-light box-shadow">
+               <img  src="@item.FeaturedImageUrl" alt="@item.Heading"
+               class="mb-2 img-fluid p-3"/>
+               <h3 class="mb-2"> 
+                   @item.Heading
+               </h3>
+               <p class="mb-2">
+                   Author:@item.Author
+                   <br />
+                   PublishDate:@item.PublishedDate.ToShortDateString()
+
+               </p>
+               <p class="mb-3">
+                            @foreach (var TagData in item.Tags)
+                            {
+                                <span class="badge bg-success">
+                                    @TagData.Name
+                                </span>
+                            }
+               </p>
+               <p class="mb-2">@item.ShortDescription</p>
+               <a class="btn btn-dark" asp-area="" asp-controller="Blogs" asp-action="Index" asp-route-urlHandle="@item.UrlHandle">ReadMore
+
+               </a>
+               </div>
+        }
+        }
+       
+
+    </div>
+    </div>
+
+</div>

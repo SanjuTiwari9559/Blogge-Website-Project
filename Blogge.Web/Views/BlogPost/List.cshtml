@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Blogge.Web.Models.Domain.BlogPost>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show BlogPost</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class=" bg-opacity-10 my-2">
+        <div class="container">
+            <h1 class="text-center">Show BlogPost</h1>
+        </div>
+    </div>
+    <div class="container py-5">
+        @if (Model != null && Model.Any())
+        {
+            <table class="table table-striped">
+                <thead class="bg-warning">
+                    <tr>
+                        <th>Id</th>
+                        <th>Heading</th>
+                        <th>Page Title</th>
+                        <th>Short Description</th>
+                        <th>Published Date</th>
+                        <th>Author</th>
+                        <th>Tags</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Heading</td>
+                            <td>@item.PageTitle</td>
+                            <td>@item.ShortDescription</td>
+                            <td>@item.PublishedDate</td>
+                            <td>@item.Author</td>
+                            <td>
+                                <div class="d-flex flex-wrap">
+                                    @foreach (var TagData in item.Tags)
+                                    {
+                                        <span class="badge badge-pill badge-success mr-1 mb-1">
+                                            @TagData.Name
+                                        </span>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "BlogPost", new { area = "", id = item.Id })">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+﻿@model Blogge.Web.Models.ViewModel.AddBlogPostRequest
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write Admin Tag Functionality</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Froala Editor CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.6/css/froala_editor.min.css" rel="stylesheet" />
+</head>
+<body class="bg-info">
+    <div class=" bg-opacity-10 my-2">
+        <div class="container">
+            <h1>Write Admin Tag Functionality</h1>
+        </div>
+    </div>
+    <div class="container py-5">
+        <form method="post">
+            <div class="form-group">
+                <label class="form-label" for="Heading">Heading</label>
+                <input type="text" id="Heading" class="form-control form-control-lg rounded-pill" asp-for="Heading">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="PageTitle">Page Title</label>
+                <input type="text" id="PageTitle" class="form-control form-control-lg rounded-pill" asp-for="PageTitle">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="Content">Content</label>
+                <textarea class="form-control form-control-lg" id="Content" asp-for="Content" placeholder="Enter Content Here"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="ShortDescription">Short Description</label>
+                <input type="text" id="ShortDescription" class="form-control form-control-lg rounded-pill" asp-for="ShortDescription">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Featured Image Uploaded</label>
+                <input type="file" class="form-control-file" id="FeaturedImageUploaded">
+                <img src="" id="featureImageDisplay" style="display:none; width:300px;">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="FeaturedImageUrl">Featured Image Url</label>
+                <input type="text" id="FeaturedImageUrl" class="form-control form-control-lg rounded-pill" asp-for="FeaturedImageUrl">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="UrlHandle">Url Handle</label>
+                <input type="text" id="UrlHandle" class="form-control form-control-lg rounded-pill" asp-for="UrlHandle">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="PublishedDate">Published Date</label>
+                <input type="date" id="PublishedDate" class="form-control form-control-lg" asp-for="PublishedDate">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="Author">Author</label>
+                <input type="text" id="Author" class="form-control form-control-lg rounded-pill" asp-for="Author">
+            </div>
+            <div class="form-group form-check">
+                <input class="form-check-input" type="checkbox" id="Visible" asp-for="Visible">
+                <label class="form-check-label" for="Visible">Is Visible</label>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Tags</label>
+                <select class="form-select" asp-items="@Model.ListItems" asp-for="SelectedTags"></select>
+            </div>
+            <button class="btn btn-success btn-lg rounded-pill" type="submit">Submit</button>
+        </form>
+    </div>
+
+</body>
+</html>
+
+
+@section Scripts{
+    <script>
+        var editor = new FroalaEditor('#Content', {
+            imageUploadURL:'/api/Image'
+        });
+
+        const FeatureUploadedElement = document.getElementById('FeaturedImageUploaded');
+        const featuredImageUrlElement = document.getElementById('FeaturedImageUrl');
+        const featuredImageDisplay = document.getElementById('featureImageDisplay');
+         async function uploadFeaturedImage(e){
+    console.log(e.target.files[0]);
+             let data = new FormData;
+             data.append('file', e.target.files[0]);
+             await fetch('/api/Image', {
+                 method: 'Post',
+                 Headers: {
+                     'Aceept': "*/*"
+                         
+                 },
+                 body: data
+
+             }).then(responce => responce.json()).
+                 then(result => {
+                     featuredImageUrlElement.value = result.link;
+                     featuredImageDisplay.src = result.link;
+                     featuredImageDisplay.style.display = 'block';
+
+                     
+                    // featuredImageUrlElement.value = result.link;
+                });
+        }
+        FeatureUploadedElement.addEventListener('change', uploadFeaturedImage);
+
+    </script>
+}

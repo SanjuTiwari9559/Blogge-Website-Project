@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Blogge.Web.Models.ViewModel.AddTagRequest ;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Tag Functionality</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light"> 
+   
+    <div class=" bg-opacity-10 my-2">
+        <div class="row">
+            <h1 class="col-12 col-lg-8 text-center">Write Admin Tag Functionality</h1>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <form method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control form-control-lg rounded-pill" id="name" name="Name" asp-for="Name">
+            </div>
+            <div class="form-group">
+                <label for="displayName">Display Name</label>
+                <input type="text" class="form-control form-control-lg rounded-pill" id="displayName" name="DisplayName" asp-for="DisplayName">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-lg btn-block w-100 rounded-pill" >Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>
+>

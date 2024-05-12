@@ -1,0 +1,121 @@
+﻿@model Blogge.Web.Models.ViewModel.EditBlogPostRequest;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Admin BlogPost Functionality</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-secondary">
+    <div class="bg-secondary bg-opacity-10 my-2">
+        <div class="container">
+            <h1>Edit Admin BlogPost Functionality</h1>
+        </div>
+    </div>
+    <div class="container py-5">
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Id</label>
+                <input type="text" id="Id" class="form-control form-control-lg rounded-pill" asp-for="Id" readonly />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Heading</label>
+                <input type="text" id="Heading" class="form-control form-control-lg rounded-pill" asp-for="Heading" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Page Title</label>
+                <input type="text" id="PageTitle" class="form-control form-control-lg rounded-pill" asp-for="PageTitle" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Content</label>
+                <textarea class="form-control form-control-lg" id="Content" asp-for="Content"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Short Description</label>
+                <input type="text" id="ShortDescription" class="form-control form-control-lg rounded-pill" asp-for="ShortDescription" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Featured Image Uploaded</label>
+                <input type="file" class="form-control-file" id="FeaturedImageUploaded" />
+                @if (Model.FeaturedImageUrl != null)
+                {
+                    <img src="@Model.FeaturedImageUrl" id="featureImageDisplay" style="display:block; width:300px;" />
+                }
+                else
+                {
+                    <img src="" id="featureImageDisplay" style="display:none; width:300px;" />
+                }
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Featured Image Url</label>
+                <input type="text" id="FeaturedImageUrl" class="form-control form-control-lg rounded-pill" asp-for="FeaturedImageUrl" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Url Handle</label>
+                <input type="text" id="UrlHandle" class="form-control form-control-lg rounded-pill" asp-for="UrlHandle" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Published Date</label>
+                <input type="date" id="PublishedDate" class="form-control form-control-lg" asp-for="PublishedDate" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Author</label>
+                <input type="text" id="Author" class="form-control form-control-lg rounded-pill" asp-for="Author" />
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="Visible" asp-for="Visible">
+                <label class="form-check-label" for="Visible">Is Visible</label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Tags</label>
+                <select class="form-select" asp-items="@Model.ListItems" asp-for="SelectedTags"></select>
+            </div>
+            <div class="d-flex">
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-dark btn-lg rounded-pill">Update</button>
+                    <button class="btn btn-danger btn-lg rounded-pill ml-2" type="submit" asp-area="" asp-controller="BlogPost" asp-action="Delete">Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+@section Scripts {
+    <script>
+        var editor = new FroalaEditor('#Content', {
+            ImageUploadUrl: '/api/Image'
+        });
+
+        const FeatureUploadedElement = document.getElementById('FeaturedImageUploaded');
+        const featuredImageUrlElement = document.getElementById('FeaturedImageUrl');
+        const featuredImageDisplay = document.getElementById('featureImageDisplay');
+        async function uploadFeaturedImage(e) {
+            console.log(e.target.files[0]);
+            let data = new FormData;
+            data.append('file', e.target.files[0]);
+            await fetch('/api/Image', {
+                method: 'Post',
+                Headers: {
+                    'Aceept': "*/*"
+
+                },
+                body: data
+
+            }).then(responce => responce.json()).
+                then(result => {
+                    featuredImageUrlElement.value = result.link;
+                    featuredImageDisplay.src = result.link;
+                    featuredImageDisplay.style.display = 'block';
+
+
+                    // featuredImageUrlElement.value = result.link;
+                });
+        }
+        FeatureUploadedElement.addEventListener('change', uploadFeaturedImage);
+    </script>
+}
+

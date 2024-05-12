@@ -1,0 +1,52 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Blogge.Web.Models.ViewModel.EditTagRequest;
+<div class="bg-secondary bg-opacity-10 my-2 ">
+    <div class="container">
+        <h1>Write Admin Tag  Edit Functionality</h1>
+    </div>
+</div>
+<div class="container py-5">
+    <form method="post">
+        <div class="mb-3">
+            <level class="form-level1">
+               Id
+            </level>
+            <input type="text" class="form-control form-control-lg " id="name" asp-for="Id" readonly />
+            </div>
+        <div class="mb-3">
+            <level class="form-level1">
+                Name
+            </level>
+            <input type="text" class="form-control form-control-lg " id="name" asp-for="Name" />
+
+
+        </div>
+        <div class="mb-3">
+            <level class="form-level1">
+                DisplayName
+            </level>
+            <input type="text" class="form-control form-control-lg " id="displayName" asp-for="DisplayName"
+/>
+
+
+        </div>
+        <div class="d-flex"> 
+            <div class="mb-3">
+
+                <button class="btn btn-success">Update</button>
+                <button class="btn btn-danger" type="submit" asp-area="" asp-controller="Tag" asp-action="Delete">Delete
+
+
+                </button>
+            </div>
+         
+        </div>
+       
+
+    </form>
+
+</div>
